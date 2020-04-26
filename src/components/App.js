@@ -8,7 +8,8 @@ import youtube from '../apis/youtube';
 const KEY='AIzaSyA5l_oFQeqhySIl-Sz5gfmtynJWVYFF55I'
 
 class App extends React.Component {
-    state={ videos: [] };
+    state={ videos: [],
+        selectedVideo: null };
 
     onTermSubmit= async (term)=>{
 
@@ -23,13 +24,20 @@ class App extends React.Component {
 
         this.setState({videos: response.data.items});
 
-    }
+    };
+
+
+    onVideoSelect = (video) => {
+        this.setState({selectedVideo: video});
+    };
+
+
     render(){
         return(
             <div className="ui container"> 
                 <SearchBar onTermSubmit={this.onTermSubmit}/>
-                <VideoDetail />
-                <VideoList videos={this.state.videos }/>
+                <VideoDetail video={this.state.selectedVideo}/>
+                <VideoList videos={this.state.videos } onVideoSelect={this.onVideoSelect}/>
             </div>
         );
     }
